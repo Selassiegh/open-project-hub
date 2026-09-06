@@ -1,0 +1,92 @@
+name: 🔍 Validate Project Submission
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate repository structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔎 Check required files
+        run: |
+          echo "Checking required files..."
+
+          required_files=(
+            "README.md"
+            "contributors.md"
+            "project-list.md"
+            "SECURITY.md"
+            "CODE_OF_CONDUCT.md"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Missing required file: $file"
+              exit 1
+            fi
+          done
+
+          echo "✅ Required files exist."
+
+      - name: 📂 Check projects directory
+        run: |
+          if [ ! -d "projects" ]; then
+            echo "❌ projects/ directory is missing."
+            exit 1
+          fi
+
+          echo "✅ projects/ directory exists."
+
+      - name: 🔐 Check for obvious secret patterns
+        run: |
+          echo "Checking for obvious exposed secrets..."
+
+          if grep -RniE \
+            --exclude-dir=.git \
+            --exclude-dir=.github \
+            --exclude='*.md' \
+            '(sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY-----)' \
+            .; then
+
+            echo "❌ Possible secret detected."
+            echo "Please remove credentials or private keys before submitting."
+            exit 1
+          fi
+
+          echo "✅ No obvious secret patterns detected."
+
+      - name: 🧹 Check project README files
+        run: |
+          failed=0
+
+          for dir in projects/*/; do
+            [ -d "$dir" ] || continue
+
+            if [ "$(basename "$dir")" = "example-project" ]; then
+              continue
+            fi
+
+            if [ ! -f "${dir}README.md" ]; then
+              echo "❌ Missing README.md in $dir"
+              failed=1
+            fi
+          done
+
+          if [ "$failed" -eq 1 ]; then
+            exit 1
+          fi
+
+          echo "✅ Project README checks passed."
+
+      - name: 🎉 Validation complete
+        run: echo "Open Project Hub validation completed successfully!"

@@ -1,0 +1,54 @@
+name: 🚀 Project Submission
+description: Suggest a project for the Open Project Hub
+title: "[PROJECT] "
+labels:
+  - project-submission
+
+body:
+  - type: input
+    id: project-name
+    attributes:
+      label: Project Name
+      description: What is the name of your project?
+      placeholder: My Awesome Project
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Project Description
+      description: Tell us briefly about your project.
+      placeholder: Describe what your project does...
+    validations:
+      required: true
+
+  - type: input
+    id: project-url
+    attributes:
+      label: Project URL
+      description: Link to the project's repository or website.
+      placeholder: https://github.com/username/project
+    validations:
+      required: true
+
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: What category does your project belong to?
+      placeholder: Web Development
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have read contributors.md.
+          required: true
+        - label: I have permission to submit this project.
+          required: true
+        - label: The project does not contain secrets or private information.
+          required: true
