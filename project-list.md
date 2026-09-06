@@ -67,6 +67,7 @@ Projects are organized by category to make them easier to discover.
 | Project | Description     | Technologies | Author |
 | ------- | --------------- | ------------ | ------ |
 | —       | No projects yet | —            | —      |
+| [Harvest Credit](projects/harvest-credit/) | Agri-fintech MVP providing input credit and automatic drought insurance payouts through South African farming cooperatives | Python, FastAPI, SQLAlchemy, Alembic, Streamlit | Zakariasisu5 |
 
 ---
 
