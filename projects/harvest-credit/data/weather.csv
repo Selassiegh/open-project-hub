@@ -1,0 +1,4 @@
+region,date,rainfall_mm,source
+Limpopo,2026-09-06,8,simulated_historical_csv
+Eastern Cape,2026-09-06,42,simulated_historical_csv
+KwaZulu-Natal,2026-09-06,67,simulated_historical_csv
